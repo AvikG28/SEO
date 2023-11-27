@@ -1,0 +1,42 @@
+import requests
+from bs4 import BeautifulSoup
+
+def update_seo(html_content):
+    # Parse the HTML content using BeautifulSoup
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    # Find the head tag
+    head_tag = soup.head
+
+    # Create a new meta tag for description
+    new_meta_tag = soup.new_tag('meta')
+    new_meta_tag.attrs['name'] = 'description'
+    new_meta_tag.attrs['content'] = 'Your new description here'
+
+    # Append the new meta tag to the head
+    head_tag.append(new_meta_tag)
+
+    # Return the modified HTML content
+    return str(soup)
+
+def main():
+    # Replace 'your_url_here' with the actual URL of the webpage
+    url = 'your_url_here'
+
+    # Send a request to the webpage and get the HTML content
+    response = requests.get(url)
+    html_content = response.text
+
+    # Update SEO by adding a meta tag for description
+    updated_html = update_seo(html_content)
+
+    # Optional: Print the modified HTML content for verification
+    print(updated_html)
+
+    # Optional: Send a request to update the webpage with the modified HTML content
+    # Uncomment the following lines if you want to update the webpage
+    # update_response = requests.post(url, data={'html': updated_html})
+    # print(update_response.text)
+
+if __name__ == "__main__":
+    main()
